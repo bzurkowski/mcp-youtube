@@ -1,15 +1,16 @@
+#!/usr/bin/env python
+import os
 from mcp.server.fastmcp import FastMCP
 
-mcp = FastMCP("Demo")
+import youtube_mcp.tools as tools
 
+mcp = FastMCP("YouTube")
 
-@mcp.tool()
-def add(a: int, b: int) -> int:
-    """Add two numbers"""
-    return a + b
-
-
-@mcp.resource("greeting://{name}")
-def get_greeting(name: str) -> str:
-    """Get a personalized greeting"""
-    return f"Hello, {name}!"
+mcp.tool()(tools.search_videos)
+mcp.tool()(tools.list_channel_videos)
+mcp.tool()(tools.list_playlist_videos)
+mcp.tool()(tools.get_video_metadata)
+mcp.tool()(tools.get_video_comments)
+mcp.tool()(tools.get_video_transcript)
+mcp.tool()(tools.list_video_transcripts)
+mcp.tool()(tools.translate_video_transcript)

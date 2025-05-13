@@ -1,10 +1,14 @@
 [project]
 name = "youtube-mcp-server"
 version = "0.1.0"
-description = "MCP server for fetching YouTube video transcripts"
+description = "MCP server for accessing YouTube data"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "mcp[cli]>=1.8.1",
     "click<8.2.0",
+    "youtube-transcript-api>=1.0.3",
+    "google-api-python-client>=2.100.0",
+    "google-auth-httplib2>=0.1.0",
+    "google-auth-oauthlib>=1.1.0"
 ]
