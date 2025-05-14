@@ -1,13 +1,8 @@
 import typer
-from enum import Enum
 from mcp.server.fastmcp import FastMCP
+from mcp_youtube.common.enums import Transport
 from typing import Annotated
 import mcp_youtube.tools as tools
-
-
-class Transport(str, Enum):
-    STDIO = "stdio"
-    SSE = "sse"
 
 
 app = typer.Typer(
