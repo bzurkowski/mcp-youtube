@@ -315,6 +315,31 @@ cli = [
 ]
 
 [[package]]
+name = "mcp-youtube"
+version = "0.1.0"
+source = { editable = "." }
+dependencies = [
+    { name = "click" },
+    { name = "google-api-python-client" },
+    { name = "google-auth-httplib2" },
+    { name = "google-auth-oauthlib" },
+    { name = "mcp", extra = ["cli"] },
+    { name = "typer" },
+    { name = "youtube-transcript-api" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "click", specifier = "<8.2.0" },
+    { name = "google-api-python-client", specifier = ">=2.100.0" },
+    { name = "google-auth-httplib2", specifier = ">=0.1.0" },
+    { name = "google-auth-oauthlib", specifier = ">=1.1.0" },
+    { name = "mcp", extras = ["cli"], specifier = ">=1.8.1" },
+    { name = "typer", specifier = ">=0.9.0" },
+    { name = "youtube-transcript-api", specifier = ">=1.0.3" },
+]
+
+[[package]]
 name = "mdurl"
 version = "0.1.2"
 source = { registry = "https://pypi.org/simple" }
@@ -670,31 +695,6 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/a6/ae/9bbb19b9e1c450cf9ecaef06463e40234d98d95bf572fab11b4f19ae5ded/uvicorn-0.34.2.tar.gz", hash = "sha256:0e929828f6186353a80b58ea719861d2629d766293b6d19baf086ba31d4f3328", size = 76815, upload-time = "2025-04-19T06:02:50.101Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/b1/4b/4cef6ce21a2aaca9d852a6e84ef4f135d99fcd74fa75105e2fc0c8308acd/uvicorn-0.34.2-py3-none-any.whl", hash = "sha256:deb49af569084536d269fe0a6d67e3754f104cf03aba7c11c40f01aadf33c403", size = 62483, upload-time = "2025-04-19T06:02:48.42Z" },
-]
-
-[[package]]
-name = "youtube-mcp-server"
-version = "0.1.0"
-source = { editable = "." }
-dependencies = [
-    { name = "click" },
-    { name = "google-api-python-client" },
-    { name = "google-auth-httplib2" },
-    { name = "google-auth-oauthlib" },
-    { name = "mcp", extra = ["cli"] },
-    { name = "typer" },
-    { name = "youtube-transcript-api" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "click", specifier = "<8.2.0" },
-    { name = "google-api-python-client", specifier = ">=2.100.0" },
-    { name = "google-auth-httplib2", specifier = ">=0.1.0" },
-    { name = "google-auth-oauthlib", specifier = ">=1.1.0" },
-    { name = "mcp", extras = ["cli"], specifier = ">=1.8.1" },
-    { name = "typer", specifier = ">=0.9.0" },
-    { name = "youtube-transcript-api", specifier = ">=1.0.3" },
 ]
 
 [[package]]

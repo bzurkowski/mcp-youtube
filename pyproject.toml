@@ -1,5 +1,5 @@
 [project]
-name = "youtube-mcp-server"
+name = "mcp_youtube"
 version = "0.1.0"
 description = "MCP server for accessing YouTube data"
 readme = "README.md"
@@ -15,7 +15,7 @@ dependencies = [
 ]
 
 [project.scripts]
-mcp-youtube = "youtube_mcp.server:app"
+mcp-youtube = "mcp_youtube.server:app"
 
 [build-system]
 requires = ["setuptools>=61.0"]

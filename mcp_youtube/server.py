@@ -2,7 +2,7 @@ import typer
 from enum import Enum
 from mcp.server.fastmcp import FastMCP
 from typing import Annotated
-import youtube_mcp.tools as tools
+import mcp_youtube.tools as tools
 
 
 class Transport(str, Enum):

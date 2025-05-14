@@ -1,6 +1,6 @@
 from typing import Dict, List, Optional, Any
 
-from youtube_mcp.api.youtube import YouTubeClient
+from mcp_youtube.common.clients.youtube import YouTubeClient
 
 
 def search_videos(

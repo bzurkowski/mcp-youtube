@@ -1,7 +1,7 @@
 from typing import Dict, List, Optional, Any
 
-from youtube_mcp.api.youtube import YouTubeClient
-from youtube_mcp.utils.helpers import extract_playlist_id
+from mcp_youtube.common.clients.youtube import YouTubeClient
+from mcp_youtube.common.utils import extract_playlist_id
 
 
 def list_playlist_videos(playlist: str, max_results: int = 10) -> List[Dict[str, Any]]:

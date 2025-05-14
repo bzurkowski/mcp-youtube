@@ -1,8 +1,8 @@
-from youtube_mcp.tools.search import search_videos
-from youtube_mcp.tools.channel import list_channel_videos
-from youtube_mcp.tools.playlist import list_playlist_videos
-from youtube_mcp.tools.video import get_video_metadata, get_video_comments
-from youtube_mcp.tools.transcript import (
+from mcp_youtube.tools.search import search_videos
+from mcp_youtube.tools.channel import list_channel_videos
+from mcp_youtube.tools.playlist import list_playlist_videos
+from mcp_youtube.tools.video import get_video_metadata, get_video_comments
+from mcp_youtube.tools.transcript import (
     get_video_transcript,
     list_video_transcripts,
     translate_video_transcript,

@@ -1,7 +1,7 @@
 from typing import Dict, List, Optional, Any
 
-from youtube_mcp.api.transcript import TranscriptAPIClient
-from youtube_mcp.utils.helpers import extract_video_id
+from mcp_youtube.common.clients.transcript import TranscriptAPIClient
+from mcp_youtube.common.utils import extract_video_id
 
 
 def get_video_transcript(

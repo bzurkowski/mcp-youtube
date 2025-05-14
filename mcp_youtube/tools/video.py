@@ -1,7 +1,10 @@
 from typing import Dict, List, Optional, Any
 
-from youtube_mcp.api.youtube import YouTubeClient
-from youtube_mcp.utils.helpers import extract_video_id, format_duration_to_seconds
+from mcp_youtube.common.clients.youtube import YouTubeClient
+from mcp_youtube.common.utils import (
+    extract_video_id,
+    format_duration_to_seconds,
+)
 
 
 def get_video_metadata(video: str) -> Dict[str, Any]:

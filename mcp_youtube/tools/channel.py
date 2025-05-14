@@ -1,7 +1,7 @@
 from typing import Dict, List, Optional, Any
 
-from youtube_mcp.api.youtube import YouTubeClient
-from youtube_mcp.utils.helpers import extract_channel_id
+from mcp_youtube.common.clients.youtube import YouTubeClient
+from mcp_youtube.common.utils import extract_channel_id
 
 
 def list_channel_videos(
