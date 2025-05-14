@@ -675,13 +675,14 @@ wheels = [
 [[package]]
 name = "youtube-mcp-server"
 version = "0.1.0"
-source = { virtual = "." }
+source = { editable = "." }
 dependencies = [
     { name = "click" },
     { name = "google-api-python-client" },
     { name = "google-auth-httplib2" },
     { name = "google-auth-oauthlib" },
     { name = "mcp", extra = ["cli"] },
+    { name = "typer" },
     { name = "youtube-transcript-api" },
 ]
 
@@ -692,6 +693,7 @@ requires-dist = [
     { name = "google-auth-httplib2", specifier = ">=0.1.0" },
     { name = "google-auth-oauthlib", specifier = ">=1.1.0" },
     { name = "mcp", extras = ["cli"], specifier = ">=1.8.1" },
+    { name = "typer", specifier = ">=0.9.0" },
     { name = "youtube-transcript-api", specifier = ">=1.0.3" },
 ]
 

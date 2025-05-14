@@ -1,24 +1,34 @@
-import argparse
+import typer
+from enum import Enum
 from mcp.server.fastmcp import FastMCP
-
+from typing import Annotated
 import youtube_mcp.tools as tools
 
 
-def main():
-    parser = argparse.ArgumentParser(description="YouTube MCP Server")
-    parser.add_argument(
-        "--transport",
-        choices=["stdio", "sse", "streamable-http"],
-        default="stdio",
-        help="Transport method (stdio, sse, or streamable-http)",
-    )
-    parser.add_argument(
-        "--sse-address",
-        default="127.0.0.1:8000",
-        help="Address for SSE transport in format host:port",
-    )
-    args = parser.parse_args()
+class Transport(str, Enum):
+    STDIO = "stdio"
+    SSE = "sse"
 
+
+app = typer.Typer(
+    help="YouTube MCP server",
+    pretty_exceptions_short=True,
+    pretty_exceptions_show_locals=False,
+    no_args_is_help=True,
+)
+
+
+@app.command()
+def main(
+    transport: Annotated[
+        Transport,
+        typer.Option(help="Transport method"),
+    ] = Transport.STDIO,
+    sse_address: Annotated[
+        str,
+        typer.Option(help="Address for SSE transport in format host:port"),
+    ] = "localhost:8000",
+):
     mcp = FastMCP("YouTube")
 
     mcp.tool()(tools.search_videos)
@@ -30,13 +40,13 @@ def main():
     mcp.tool()(tools.list_video_transcripts)
     mcp.tool()(tools.translate_video_transcript)
 
-    if args.transport == "sse":
-        host, port = args.sse_address.split(":")
+    if transport == Transport.SSE:
+        host, port = sse_address.split(":")
         mcp.settings.host = host
         mcp.settings.port = int(port)
 
-    mcp.run(transport=args.transport)
+    mcp.run(transport=transport.value)
 
 
 if __name__ == "__main__":
-    main()
+    typer.run(main)
