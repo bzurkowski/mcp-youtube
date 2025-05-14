@@ -14,9 +14,22 @@ dependencies = [
     "google-auth-oauthlib>=1.1.0"
 ]
 
+[dependency-groups]
+dev = [
+    "black>=25.1.0",
+    "coverage>=7.8.0",
+    "flake8>=7.2.0",
+    "isort>=6.0.1",
+    "pytest>=8.3.5",
+]
+
 [project.scripts]
 mcp-youtube = "mcp_youtube.server:app"
 
 [build-system]
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
+
+[tool.black]
+target-version = ["py311"]
+line-length = 88
