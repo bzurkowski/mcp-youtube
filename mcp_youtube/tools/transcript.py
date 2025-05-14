@@ -5,25 +5,22 @@ from mcp_youtube.common.utils import extract_video_id
 
 
 def get_video_transcript(
-    video: str, languages: Optional[List[str]] = None, preserve_formatting: bool = False
+    video: str, language_code: str, preserve_formatting: bool = False
 ) -> List[Dict[str, Any]]:
     """
     Get transcript for a specific YouTube video.
 
     Args:
         video: The video ID or URL to get transcript for.
-        languages: List of language codes in descending priority (default: ['en']).
+        language_code: The language code of the transcript to retrieve.
         preserve_formatting: Whether to preserve HTML formatting in the transcript.
 
     Returns:
         A list of transcript segments.
     """
     client = TranscriptAPIClient()
-
-    # Extract video ID if a URL was provided
     video_id = extract_video_id(video) or video
-
-    return client.get_transcript(video_id, languages, preserve_formatting)
+    return client.get_transcript(video_id, language_code, preserve_formatting)
 
 
 def list_video_transcripts(video: str) -> Dict[str, Any]:
@@ -37,11 +34,8 @@ def list_video_transcripts(video: str) -> Dict[str, Any]:
         A dictionary containing information about available transcripts.
     """
     client = TranscriptAPIClient()
-
-    # Extract video ID if a URL was provided
     video_id = extract_video_id(video) or video
-
-    return client.list_transcripts(video_id)
+    return TranscriptAPIClient().list_transcripts(video_id)
 
 
 def translate_video_transcript(
@@ -59,8 +53,5 @@ def translate_video_transcript(
         A list of translated transcript segments.
     """
     client = TranscriptAPIClient()
-
-    # Extract video ID if a URL was provided
     video_id = extract_video_id(video) or video
-
     return client.translate_transcript(video_id, language_code, preserve_formatting)

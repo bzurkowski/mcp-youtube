@@ -16,19 +16,20 @@ class TranscriptAPIClient:
     def get_transcript(
         self,
         video_id: str,
-        languages: Optional[List[str]] = None,
+        language_code: str,
         preserve_formatting: bool = False,
     ) -> List[Dict[str, Any]]:
         try:
-            languages = languages or ["en"]
             transcript = YouTubeTranscriptApi.get_transcript(
-                video_id, languages=languages, preserve_formatting=preserve_formatting
+                video_id,
+                languages=[language_code],
+                preserve_formatting=preserve_formatting,
             )
             return transcript
         except NoTranscriptFound:
             # No transcript is available for the requested languages
             raise Exception(
-                f"No transcript found for video ID {video_id} in languages: {languages}"
+                f"No transcript found for video ID {video_id} in languages: {language_code}"
             )
         except TranscriptsDisabled:
             # Transcripts are disabled for this video
@@ -55,8 +56,8 @@ class TranscriptAPIClient:
                         "translation_languages": (
                             [
                                 {
-                                    "language": lang["language"],
-                                    "language_code": lang["language_code"],
+                                    "language": lang.language,
+                                    "language_code": lang.language_code,
                                 }
                                 for lang in transcript.translation_languages
                             ]
@@ -72,20 +73,12 @@ class TranscriptAPIClient:
             }
         except TranscriptsDisabled:
             # Transcripts are disabled for this video
-            return {
-                "video_id": video_id,
-                "available_transcripts": [],
-                "error": "Transcripts are disabled for this video",
-            }
+            raise Exception(f"Transcripts are disabled for video ID {video_id}")
         except VideoUnavailable:
             # The video is no longer available
-            return {
-                "video_id": video_id,
-                "available_transcripts": [],
-                "error": "Video is unavailable",
-            }
+            raise Exception(f"Video with ID {video_id} is unavailable")
         except Exception as e:
-            return {"video_id": video_id, "available_transcripts": [], "error": str(e)}
+            raise Exception(f"Error retrieving transcript: {str(e)}")
 
     def translate_transcript(
         self, video_id: str, language_code: str, preserve_formatting: bool = False
