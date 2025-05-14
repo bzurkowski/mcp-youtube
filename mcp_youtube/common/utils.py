@@ -54,21 +54,3 @@ def extract_playlist_id(url: str) -> Optional[str]:
         return url
 
     return None
-
-
-def format_duration_to_seconds(duration: str) -> int:
-    match = re.match(
-        r"P(?:(?P<days>\d+)D)?T"
-        r"(?:(?P<hours>\d+)H)?(?:(?P<minutes>\d+)M)?(?:(?P<seconds>\d+)S)?",
-        duration,
-    )
-    if not match:
-        return 0
-
-    match_dict = match.groupdict(default="0")
-    days = int(match_dict["days"])
-    hours = int(match_dict["hours"])
-    minutes = int(match_dict["minutes"])
-    seconds = int(match_dict["seconds"])
-
-    return days * 86400 + hours * 3600 + minutes * 60 + seconds

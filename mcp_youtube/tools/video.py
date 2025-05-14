@@ -1,10 +1,7 @@
 from typing import Any, Dict, List
 
 from mcp_youtube.common.clients.youtube import YouTubeClient
-from mcp_youtube.common.utils import (
-    extract_video_id,
-    format_duration_to_seconds,
-)
+from mcp_youtube.common.utils import extract_video_id
 
 
 def get_video_metadata(video: str) -> Dict[str, Any]:
@@ -18,18 +15,8 @@ def get_video_metadata(video: str) -> Dict[str, Any]:
         A dictionary containing video metadata.
     """
     client = YouTubeClient()
-
-    # Extract video ID if a URL was provided
     video_id = extract_video_id(video) or video
-
-    # Get the metadata
-    metadata = client.get_video_metadata(video_id)
-
-    # Add formatted duration in seconds
-    if "duration" in metadata:
-        metadata["duration_seconds"] = format_duration_to_seconds(metadata["duration"])
-
-    return metadata
+    return client.get_video_metadata(video_id)
 
 
 def get_video_comments(
@@ -47,8 +34,5 @@ def get_video_comments(
         A list of comments for the video.
     """
     client = YouTubeClient()
-
-    # Extract video ID if a URL was provided
     video_id = extract_video_id(video) or video
-
     return client.get_video_comments(video_id, max_results, order)

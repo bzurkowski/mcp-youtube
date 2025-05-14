@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 from youtube_transcript_api import (
     NoTranscriptFound,
@@ -29,7 +29,8 @@ class TranscriptAPIClient:
         except NoTranscriptFound:
             # No transcript is available for the requested languages
             raise Exception(
-                f"No transcript found for video ID {video_id} in languages: {language_code}"
+                f"No transcript found for video ID {video_id} "
+                f"in languages: {language_code}"
             )
         except TranscriptsDisabled:
             # Transcripts are disabled for this video

@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 from mcp_youtube.common.clients.transcript import TranscriptAPIClient
 from mcp_youtube.common.utils import extract_video_id
@@ -33,7 +33,6 @@ def list_video_transcripts(video: str) -> Dict[str, Any]:
     Returns:
         A dictionary containing information about available transcripts.
     """
-    client = TranscriptAPIClient()
     video_id = extract_video_id(video) or video
     return TranscriptAPIClient().list_transcripts(video_id)
 

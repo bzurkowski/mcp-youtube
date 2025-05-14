@@ -19,8 +19,5 @@ def list_channel_videos(
         A list of videos from the channel.
     """
     client = YouTubeClient()
-
-    # Extract channel ID if a URL was provided
     channel_id = extract_channel_id(channel) or channel
-
     return client.list_channel_videos(channel_id, max_results, order)

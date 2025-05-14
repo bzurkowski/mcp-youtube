@@ -16,8 +16,5 @@ def list_playlist_videos(playlist: str, max_results: int = 10) -> List[Dict[str,
         A list of videos from the playlist.
     """
     client = YouTubeClient()
-
-    # Extract playlist ID if a URL was provided
     playlist_id = extract_playlist_id(playlist) or playlist
-
     return client.list_playlist_videos(playlist_id, max_results)
