@@ -1,4 +1,3 @@
-import os
 import re
 from typing import Optional
 from urllib.parse import parse_qs, urlparse
@@ -59,7 +58,8 @@ def extract_playlist_id(url: str) -> Optional[str]:
 
 def format_duration_to_seconds(duration: str) -> int:
     match = re.match(
-        r"P(?:(?P<days>\d+)D)?T(?:(?P<hours>\d+)H)?(?:(?P<minutes>\d+)M)?(?:(?P<seconds>\d+)S)?",
+        r"P(?:(?P<days>\d+)D)?T"
+        r"(?:(?P<hours>\d+)H)?(?:(?P<minutes>\d+)M)?(?:(?P<seconds>\d+)S)?",
         duration,
     )
     if not match:

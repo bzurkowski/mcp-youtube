@@ -1,4 +1,4 @@
-from typing import Dict, List, Optional, Any
+from typing import Any, Dict, List
 
 from mcp_youtube.common.clients.youtube import YouTubeClient
 from mcp_youtube.common.utils import extract_playlist_id

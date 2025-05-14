@@ -1,9 +1,10 @@
+from typing import Annotated
+
 import typer
 from mcp.server.fastmcp import FastMCP
-from mcp_youtube.common.enums import Transport
-from typing import Annotated
-import mcp_youtube.tools as tools
 
+import mcp_youtube.tools as tools
+from mcp_youtube.common.enums import Transport
 
 app = typer.Typer(
     help="YouTube MCP server",
