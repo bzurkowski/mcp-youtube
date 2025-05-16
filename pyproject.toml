@@ -5,7 +5,7 @@ description = "MCP server for accessing YouTube data"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
-    "mcp[cli]>=1.8.1",
+    "mcp[cli]>=1.9.0",
     "click<8.2.0",
     "typer>=0.9.0",
     "youtube-transcript-api>=1.0.3",
