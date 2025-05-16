@@ -4,7 +4,10 @@ from mcp_youtube.common.clients.youtube import YouTubeClient
 from mcp_youtube.common.utils import extract_playlist_id
 
 
-def list_playlist_videos(playlist: str, max_results: int = 10) -> List[Dict[str, Any]]:
+def list_playlist_videos(
+    playlist: str,
+    max_results: int = 10,
+) -> List[Dict[str, Any]]:
     """
     List videos from a specific YouTube playlist.
 
@@ -15,6 +18,30 @@ def list_playlist_videos(playlist: str, max_results: int = 10) -> List[Dict[str,
     Returns:
         A list of videos from the playlist.
     """
-    client = YouTubeClient()
     playlist_id = extract_playlist_id(playlist) or playlist
-    return client.list_playlist_videos(playlist_id, max_results)
+
+    playlist_response = (
+        YouTubeClient()
+        .playlistItems()
+        .list(
+            part="snippet,contentDetails",
+            playlistId=playlist_id,
+            maxResults=max_results,
+        )
+        .execute()
+    )
+
+    result = []
+    for item in playlist_response.get("items", []):
+        snippet = item["snippet"]
+        video_data = {
+            "id": item["contentDetails"]["videoId"],
+            "title": snippet["title"],
+            "description": snippet["description"],
+            "published_at": snippet["publishedAt"],
+            "channel_id": snippet["channelId"],
+            "channel_title": snippet["channelTitle"],
+        }
+        result.append(video_data)
+
+    return result

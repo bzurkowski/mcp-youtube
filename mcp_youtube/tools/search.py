@@ -29,13 +29,34 @@ def search_videos(
     Returns:
         A list of video items matching the search criteria.
     """
-    client = YouTubeClient()
-    return client.search_videos(
-        query,
-        max_results,
-        order,
-        region_code,
-        language,
-        published_after,
-        published_before,
+    search_response = (
+        YouTubeClient()
+        .search()
+        .list(
+            q=query,
+            part="id,snippet",
+            maxResults=max_results,
+            type="video",
+            order=order,
+            regionCode=region_code,
+            relevanceLanguage=language,
+            publishedAfter=published_after,
+            publishedBefore=published_before,
+        )
+        .execute()
     )
+
+    result = []
+    for item in search_response.get("items", []):
+        snippet = item["snippet"]
+        video_data = {
+            "id": item["id"]["videoId"],
+            "title": snippet["title"],
+            "description": snippet["description"],
+            "published_at": snippet["publishedAt"],
+            "channel_id": snippet["channelId"],
+            "channel_title": snippet["channelTitle"],
+        }
+        result.append(video_data)
+
+    return result

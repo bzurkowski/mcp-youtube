@@ -1,38 +1,49 @@
-from typing import Any, Dict, List
+from typing import Any, Dict
 
 from mcp_youtube.common.clients.youtube import YouTubeClient
 from mcp_youtube.common.utils import extract_video_id
 
 
-def get_video_metadata(video: str) -> Dict[str, Any]:
+def get_video_details(
+    video: str,
+) -> Dict[str, Any]:
     """
-    Get metadata for a specific YouTube video.
+    Get details for a specific YouTube video.
 
     Args:
-        video: The video ID or URL to get metadata for.
+        video: The video ID or URL to get details for.
 
     Returns:
-        A dictionary containing video metadata.
+        A dictionary containing video details.
     """
-    client = YouTubeClient()
     video_id = extract_video_id(video) or video
-    return client.get_video_metadata(video_id)
 
+    video_response = (
+        YouTubeClient()
+        .videos()
+        .list(part="snippet,contentDetails,statistics", id=video_id)
+        .execute()
+    )
 
-def get_video_comments(
-    video: str, max_results: int = 20, order: str = "relevance"
-) -> List[Dict[str, Any]]:
-    """
-    Get comments for a specific YouTube video.
+    if not video_response.get("items"):
+        raise Exception(f"Video not found with ID: {video_id}")
 
-    Args:
-        video: The video ID or URL to get comments for.
-        max_results: Maximum number of comments to return (default: 20).
-        order: Order of the comments ('relevance' or 'time').
+    video_data = video_response["items"][0]
+    snippet = video_data["snippet"]
+    stats = video_data["statistics"]
 
-    Returns:
-        A list of comments for the video.
-    """
-    client = YouTubeClient()
-    video_id = extract_video_id(video) or video
-    return client.get_video_comments(video_id, max_results, order)
+    result = {
+        "id": video_data["id"],
+        "title": snippet["title"],
+        "description": snippet["description"],
+        "published_at": snippet["publishedAt"],
+        "channel_id": snippet["channelId"],
+        "channel_title": snippet["channelTitle"],
+        "tags": snippet.get("tags", []),
+        "duration": video_data["contentDetails"]["duration"],
+        "view_count": stats.get("viewCount", 0),
+        "like_count": stats.get("likeCount", 0),
+        "comment_count": stats.get("commentCount", 0),
+    }
+
+    return result
