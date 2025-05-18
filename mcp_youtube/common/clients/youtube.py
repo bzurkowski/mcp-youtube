@@ -11,8 +11,7 @@ class YouTubeClient:
     """
     A lightweight wrapper around the YouTube Data API v3 client.
 
-    This class initializes the YouTube client with the API key and forwards
-    all method calls to the underlying client, providing unified error handling.
+    This class provides unified error handling for YouTube operations.
     """
 
     def __init__(self, api_key: Optional[str] = None):

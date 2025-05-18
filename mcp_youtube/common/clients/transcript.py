@@ -1,4 +1,4 @@
-from typing import Any, Dict, List
+from typing import Any
 
 from youtube_transcript_api import (
     NoTranscriptFound,
@@ -7,105 +7,35 @@ from youtube_transcript_api import (
     YouTubeTranscriptApi,
 )
 
+from mcp_youtube.common.exceptions import TranscriptAPIError
+
 
 class TranscriptAPIClient:
     """
-    A client for retrieving video transcripts using youtube-transcript-api.
+    A lightweight wrapper around the YouTube Transcript API.
+
+    This class provides unified error handling for transcript operations.
     """
 
-    def get_transcript(
-        self,
-        video_id: str,
-        language_code: str,
-        preserve_formatting: bool = False,
-    ) -> List[Dict[str, Any]]:
-        try:
-            transcript = YouTubeTranscriptApi.get_transcript(
-                video_id,
-                languages=[language_code],
-                preserve_formatting=preserve_formatting,
-            )
-            return transcript
-        except NoTranscriptFound:
-            # No transcript is available for the requested languages
-            raise Exception(
-                f"No transcript found for video ID {video_id} "
-                f"in languages: {language_code}"
-            )
-        except TranscriptsDisabled:
-            # Transcripts are disabled for this video
-            raise Exception(f"Transcripts are disabled for video ID {video_id}")
-        except VideoUnavailable:
-            # The video is no longer available
-            raise Exception(f"Video with ID {video_id} is unavailable")
-        except Exception as e:
-            raise Exception(f"Error retrieving transcript: {str(e)}")
+    def __getattr__(self, name: str) -> Any:
+        attr = getattr(YouTubeTranscriptApi, name)
+        if callable(attr):
 
-    def list_transcripts(self, video_id: str) -> Dict[str, Any]:
-        try:
-            transcript_list = YouTubeTranscriptApi.list_transcripts(video_id)
-
-            # Format the response
-            available_transcripts = []
-            for transcript in transcript_list:
-                available_transcripts.append(
-                    {
-                        "language": transcript.language,
-                        "language_code": transcript.language_code,
-                        "is_generated": transcript.is_generated,
-                        "is_translatable": transcript.is_translatable,
-                        "translation_languages": (
-                            [
-                                {
-                                    "language": lang.language,
-                                    "language_code": lang.language_code,
-                                }
-                                for lang in transcript.translation_languages
-                            ]
-                            if transcript.is_translatable
-                            else []
-                        ),
-                    }
-                )
-
-            return {
-                "video_id": video_id,
-                "available_transcripts": available_transcripts,
-            }
-        except TranscriptsDisabled:
-            # Transcripts are disabled for this video
-            raise Exception(f"Transcripts are disabled for video ID {video_id}")
-        except VideoUnavailable:
-            # The video is no longer available
-            raise Exception(f"Video with ID {video_id} is unavailable")
-        except Exception as e:
-            raise Exception(f"Error retrieving transcript: {str(e)}")
-
-    def translate_transcript(
-        self, video_id: str, language_code: str, preserve_formatting: bool = False
-    ) -> List[Dict[str, Any]]:
-        try:
-            transcript_list = YouTubeTranscriptApi.list_transcripts(video_id)
-
-            # Find any available transcript that can be translated
-            for transcript in transcript_list:
-                if transcript.is_translatable:
-                    translated_transcript = transcript.translate(language_code)
-                    return translated_transcript.fetch(
-                        preserve_formatting=preserve_formatting
+            def wrapper(*args, **kwargs):
+                try:
+                    return attr(*args, **kwargs)
+                except NoTranscriptFound:
+                    raise TranscriptAPIError(
+                        "No transcript found for the requested language"
+                    )
+                except TranscriptsDisabled:
+                    raise TranscriptAPIError("Transcripts are disabled for this video")
+                except VideoUnavailable:
+                    raise TranscriptAPIError("The video is no longer available")
+                except Exception as e:
+                    raise TranscriptAPIError(
+                        f"Error during transcript API call: {str(e)}"
                     )
 
-            raise Exception(f"No translatable transcript found for video ID {video_id}")
-        except NoTranscriptFound:
-            # No transcript is available for the requested language
-            raise Exception(
-                f"No transcript found that can be translated to {language_code}"
-            )
-        except TranscriptsDisabled:
-            # Transcripts are disabled for this video
-            raise Exception(f"Transcripts are disabled for video ID {video_id}")
-        except VideoUnavailable:
-            # The video is no longer available
-            raise Exception(f"Video with ID {video_id} is unavailable")
-        except Exception as e:
-            raise Exception(f"Error translating transcript: {str(e)}")
+            return wrapper
+        return attr
