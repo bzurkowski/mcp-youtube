@@ -1,6 +1,7 @@
 from typing import Any, Dict
 
 from mcp_youtube.common.clients.youtube import YouTubeClient
+from mcp_youtube.common.exceptions import YouTubeAPIError
 from mcp_youtube.common.utils import extract_video_id
 
 
@@ -18,21 +19,21 @@ def get_video_details(
     """
     video_id = extract_video_id(video) or video
 
-    video_response = (
+    response = (
         YouTubeClient()
         .videos()
         .list(part="snippet,contentDetails,statistics", id=video_id)
         .execute()
     )
 
-    if not video_response.get("items"):
-        raise Exception(f"Video not found with ID: {video_id}")
+    if not response.get("items"):
+        raise YouTubeAPIError("Video not found")
 
-    video_data = video_response["items"][0]
+    video_data = response["items"][0]
     snippet = video_data["snippet"]
     stats = video_data["statistics"]
 
-    result = {
+    return {
         "id": video_data["id"],
         "title": snippet["title"],
         "description": snippet["description"],
@@ -45,5 +46,3 @@ def get_video_details(
         "like_count": stats.get("likeCount", 0),
         "comment_count": stats.get("commentCount", 0),
     }
-
-    return result

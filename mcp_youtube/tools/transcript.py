@@ -40,10 +40,10 @@ def list_video_transcripts(video: str) -> List[Dict[str, Any]]:
     """
     video_id = extract_video_id(video) or video
 
-    transcript_list = TranscriptAPIClient().list_transcripts(video_id)
+    transcripts = TranscriptAPIClient().list_transcripts(video_id)
 
     result = []
-    for transcript in transcript_list:
+    for transcript in transcripts:
         result.append(
             {
                 "language": transcript.language,
@@ -83,12 +83,12 @@ def translate_video_transcript(
     """
     video_id = extract_video_id(video) or video
 
-    transcript_list = TranscriptAPIClient().list_transcripts(video_id)
+    transcripts = TranscriptAPIClient().list_transcripts(video_id)
 
-    for transcript in transcript_list:
+    for transcript in transcripts:
         if transcript.is_translatable:
-            translated_transcript = transcript.translate(language_code)
-            return translated_transcript.fetch(preserve_formatting=preserve_formatting)
+            translated = transcript.translate(language_code)
+            return translated.fetch(preserve_formatting=preserve_formatting)
 
     raise TranscriptAPIError(
         f"No translatable transcript found for video ID {video_id}"

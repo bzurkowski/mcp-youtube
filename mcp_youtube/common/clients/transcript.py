@@ -14,11 +14,12 @@ class TranscriptAPIClient:
     """
     A lightweight wrapper around the YouTube Transcript API.
 
-    This class provides unified error handling for transcript operations.
+    Provides unified error handling for transcript operations.
     """
 
     def __getattr__(self, name: str) -> Any:
         attr = getattr(YouTubeTranscriptApi, name)
+
         if callable(attr):
 
             def wrapper(*args, **kwargs):

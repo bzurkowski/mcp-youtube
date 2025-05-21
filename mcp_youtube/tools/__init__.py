@@ -11,7 +11,6 @@ from mcp_youtube.tools.video import get_video_details
 __all__ = [
     "get_video_details",
     "get_video_transcript",
-    "list_channel_videos",
     "list_playlist_videos",
     "list_video_comments",
     "list_video_transcripts",

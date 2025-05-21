@@ -11,7 +11,7 @@ class YouTubeClient:
     """
     A lightweight wrapper around the YouTube Data API v3 client.
 
-    This class provides unified error handling for YouTube operations.
+    Provides unified error handling for YouTube operations.
     """
 
     def __init__(self, api_key: Optional[str] = None):
@@ -25,6 +25,7 @@ class YouTubeClient:
 
     def __getattr__(self, name: str) -> Any:
         attr = getattr(self.client, name)
+
         if callable(attr):
 
             def wrapper(*args, **kwargs):

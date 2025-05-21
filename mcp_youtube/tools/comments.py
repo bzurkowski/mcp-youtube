@@ -22,7 +22,7 @@ def list_video_comments(
     """
     video_id = extract_video_id(video) or video
 
-    comments_response = (
+    response = (
         YouTubeClient()
         .commentThreads()
         .list(
@@ -35,16 +35,17 @@ def list_video_comments(
     )
 
     result = []
-    for item in comments_response.get("items", []):
+    for item in response.get("items", []):
         comment = item["snippet"]["topLevelComment"]["snippet"]
-        comment_data = {
-            "id": item["id"],
-            "author": comment["authorDisplayName"],
-            "text": comment["textDisplay"],
-            "like_count": comment["likeCount"],
-            "published_at": comment["publishedAt"],
-            "updated_at": comment["updatedAt"],
-        }
-        result.append(comment_data)
+        result.append(
+            {
+                "id": item["id"],
+                "author": comment["authorDisplayName"],
+                "text": comment["textDisplay"],
+                "like_count": comment["likeCount"],
+                "published_at": comment["publishedAt"],
+                "updated_at": comment["updatedAt"],
+            }
+        )
 
     return result

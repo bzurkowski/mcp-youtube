@@ -20,7 +20,7 @@ def list_playlist_videos(
     """
     playlist_id = extract_playlist_id(playlist) or playlist
 
-    playlist_response = (
+    response = (
         YouTubeClient()
         .playlistItems()
         .list(
@@ -32,16 +32,17 @@ def list_playlist_videos(
     )
 
     result = []
-    for item in playlist_response.get("items", []):
+    for item in response.get("items", []):
         snippet = item["snippet"]
-        video_data = {
-            "id": item["contentDetails"]["videoId"],
-            "title": snippet["title"],
-            "description": snippet["description"],
-            "published_at": snippet["publishedAt"],
-            "channel_id": snippet["channelId"],
-            "channel_title": snippet["channelTitle"],
-        }
-        result.append(video_data)
+        result.append(
+            {
+                "id": item["contentDetails"]["videoId"],
+                "title": snippet["title"],
+                "description": snippet["description"],
+                "published_at": snippet["publishedAt"],
+                "channel_id": snippet["channelId"],
+                "channel_title": snippet["channelTitle"],
+            }
+        )
 
     return result

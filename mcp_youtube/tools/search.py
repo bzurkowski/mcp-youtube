@@ -29,7 +29,7 @@ def search_videos(
     Returns:
         A list of video items matching the search criteria.
     """
-    search_response = (
+    response = (
         YouTubeClient()
         .search()
         .list(
@@ -47,16 +47,17 @@ def search_videos(
     )
 
     result = []
-    for item in search_response.get("items", []):
+    for item in response.get("items", []):
         snippet = item["snippet"]
-        video_data = {
-            "id": item["id"]["videoId"],
-            "title": snippet["title"],
-            "description": snippet["description"],
-            "published_at": snippet["publishedAt"],
-            "channel_id": snippet["channelId"],
-            "channel_title": snippet["channelTitle"],
-        }
-        result.append(video_data)
+        result.append(
+            {
+                "id": item["id"]["videoId"],
+                "title": snippet["title"],
+                "description": snippet["description"],
+                "published_at": snippet["publishedAt"],
+                "channel_id": snippet["channelId"],
+                "channel_title": snippet["channelTitle"],
+            }
+        )
 
     return result

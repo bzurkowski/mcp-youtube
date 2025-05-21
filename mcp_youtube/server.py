@@ -27,12 +27,12 @@ def main(
 ):
     mcp = FastMCP("YouTube")
 
-    mcp.add_tool(tools.search_videos)
-    mcp.add_tool(tools.list_playlist_videos)
     mcp.add_tool(tools.get_video_details)
-    mcp.add_tool(tools.list_video_comments)
     mcp.add_tool(tools.get_video_transcript)
+    mcp.add_tool(tools.list_playlist_videos)
+    mcp.add_tool(tools.list_video_comments)
     mcp.add_tool(tools.list_video_transcripts)
+    mcp.add_tool(tools.search_videos)
     mcp.add_tool(tools.translate_video_transcript)
 
     if transport == Transport.SSE:
