@@ -29,6 +29,7 @@ def main(
 
     mcp.add_tool(tools.get_video_details)
     mcp.add_tool(tools.get_video_transcript)
+    mcp.add_tool(tools.list_channels)
     mcp.add_tool(tools.list_playlist_videos)
     mcp.add_tool(tools.list_video_comments)
     mcp.add_tool(tools.list_video_transcripts)

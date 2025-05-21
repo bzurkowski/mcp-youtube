@@ -24,22 +24,6 @@ def extract_video_id(url: str) -> Optional[str]:
     return None
 
 
-def extract_channel_id(url: str) -> Optional[str]:
-    # Check for channel URL format
-    if "youtube.com/channel/" in url:
-        parsed_url = urlparse(url)
-        path_parts = parsed_url.path.split("/")
-        for i, part in enumerate(path_parts):
-            if part == "channel" and i + 1 < len(path_parts):
-                return path_parts[i + 1]
-
-    # Check if the input is already a channel ID (starts with UC)
-    if re.match(r"^UC[a-zA-Z0-9_-]+$", url):
-        return url
-
-    return None
-
-
 def extract_playlist_id(url: str) -> Optional[str]:
     # Check for playlist URL format
     if "youtube.com" in url:
@@ -54,3 +38,7 @@ def extract_playlist_id(url: str) -> Optional[str]:
         return url
 
     return None
+
+
+def extract_handle(handle: str) -> str:
+    return handle if handle.startswith("@") else f"@{handle}"
